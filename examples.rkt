@@ -40,7 +40,7 @@
 
 ; start the mission "do nothing"
 ; (change this to start other missions)
-;(start-mission do-nothing)
+(start-mission do-nothing)
 
 ; You can also use this variant to equip your spaceship with more fuel
-(start-mission/fuel do-nothing 50000)
+; (start-mission/fuel do-nothing 50000)
