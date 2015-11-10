@@ -30,16 +30,16 @@
 (define SPACE (rectangle WIDTH HEIGHT "solid" "black"))
 
 ; image depicting the earth
-(define EARTH-IMAGE (bitmap/file "earth_small.jpg"))
+(define EARTH-IMAGE (bitmap/file "images/earth_small.jpg"))
 
 ; image depicting the moon
-(define MOON-IMAGE (bitmap/file "moon_small.jpg"))
+(define MOON-IMAGE (bitmap/file "images/moon_small.jpg"))
 
 ; image depicting the gps-satellite
-(define SAT-IMAGE (scale 0.1 (bitmap/file "satellite.png")))
+(define SAT-IMAGE (scale 0.1 (bitmap/file "images/satellite.png")))
 
 ; image depicting the space-ship
-(define SHIP-IMAGE (bitmap/file "rocket.png"))
+(define SHIP-IMAGE (bitmap/file "images/rocket.png"))
 
 ; Mission -> Number
 ; computes the pixel-per-meter ration for the current zoom-level.
