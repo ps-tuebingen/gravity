@@ -21,8 +21,8 @@
 (require "world.rkt")
 (require "mission.rkt")
 
-(define WIDTH 800)
-(define HEIGHT 800)
+(define WIDTH 640)
+(define HEIGHT 480)
 (define CENTER-X (/ WIDTH 2))
 (define CENTER-Y (/ HEIGHT 2))
 (define CENTER (make-posn CENTER-X CENTER-Y))
@@ -44,7 +44,7 @@
 ; Mission -> Number
 ; computes the pixel-per-meter ration for the current zoom-level.
 (define (zoom m)
-  (/ WIDTH (* 2.5 MOON-ORBIT) (mission-zoom m)))
+  (/ (min WIDTH HEIGHT) (* 2.5 MOON-ORBIT) (mission-zoom m)))
 
 ; Image Distance Zoom-Level -> Image
 ; returns a scaled image, respecting the zoom-level and the object's
