@@ -21,8 +21,8 @@
 (require "world.rkt")
 (require "mission.rkt")
 
-(define WIDTH 800)
-(define HEIGHT 800)
+(define WIDTH 640)
+(define HEIGHT 480)
 (define CENTER-X (/ WIDTH 2))
 (define CENTER-Y (/ HEIGHT 2))
 (define CENTER (make-posn CENTER-X CENTER-Y))
