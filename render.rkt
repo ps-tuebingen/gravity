@@ -44,7 +44,7 @@
 ; Mission -> Number
 ; computes the pixel-per-meter ration for the current zoom-level.
 (define (zoom m)
-  (/ WIDTH (* 2.5 MOON-ORBIT) (mission-zoom m)))
+  (/ (min WIDTH HEIGHT) (* 2.5 MOON-ORBIT) (mission-zoom m)))
 
 ; Image Distance Zoom-Level -> Image
 ; returns a scaled image, respecting the zoom-level and the object's
