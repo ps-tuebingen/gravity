@@ -31,7 +31,7 @@
 ; Minimum simulation speed: 1 second per second.
 (define MIN-SPEEDUP SECOND)
 
-; Maximum simulation speed: 1 day per second.
+; Maximum simulation speed: 1 hour per second.
 (define MAX-SPEEDUP HOUR)
 
 ; Simulation-Speed -> Simulation-Speed
