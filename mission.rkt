@@ -154,6 +154,33 @@
                 new-state
                 (mission-centered-body mission)))
 
+; Operation CenteredBody -> CenteredBody
+; returns the resulting centered body according to the specified operation
+(define (update-centered-body operation centered-body)
+  (cond
+    [(string=? "next" operation)
+     (cond
+       [(earth-centered? centered-body) (make-moon-centered)]
+       [(moon-centered? centered-body) (make-sat-centered)]
+       [(sat-centered? centered-body) (make-ship-centered)]
+       [(ship-centered? centered-body) (make-earth-centered)])]
+    [(string=? "previous" operation)
+     (cond
+       [(earth-centered? centered-body) (make-ship-centered)]
+       [(moon-centered? centered-body) (make-earth-centered)]
+       [(sat-centered? centered-body) (make-moon-centered)]
+       [(ship-centered? centered-body) (make-sat-centered)])]))
+
+; Mission -> Mission
+; returns a new mission with the updated centered body
+(define (change-mission-centered-body operation mission)
+  (make-mission (mission-time mission)
+                (mission-zoom mission)
+                (mission-simulation-speed mission)
+                (mission-world mission)
+                (mission-state mission)
+                (update-centered-body operation (mission-centered-body mission))))
+
 ; The following two lines make all definitions in this file
 ; available to other files that contain:
 ;
