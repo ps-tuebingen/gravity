@@ -89,13 +89,22 @@
     (rotate (v-angle direction (make-posn 0 1))
                      (arrow color))))
 
+; Mission -> Position
+; returns the current position of the centered body
+(define (get-mission-centered-body m)
+  (cond
+    [(earth-centered? (mission-centered-body m)) (position (world-earth (mission-world m)))]
+    [(moon-centered? (mission-centered-body m)) (position (world-moon (mission-world m)))]
+    [(sat-centered? (mission-centered-body m)) (position (world-sat (mission-world m)))]
+    [(ship-centered? (mission-centered-body m)) (position (world-ship (mission-world m)))]))
+
 ; Mission Position -> Position
 ; Translates a location in space to a location on screen
 (define (space-to-screen m loc)
   (v+ CENTER
       (v* (zoom m)
           (v- loc
-              (position (world-ship (mission-world m)))))))
+              (get-mission-centered-body m)))))
 
 ; Image Location Scene -> Scene
 ; a variant of place-image that takes a posn instead of two numbers
