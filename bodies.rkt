@@ -46,6 +46,11 @@
 (define-struct sat (position velocity))
 (define-struct ship (position velocity fuel orientation thrust))
 
+(define-struct earth-centered ())
+(define-struct moon-centered ())
+(define-struct sat-centered ())
+(define-struct ship-centered ())
+
 ; Earth is a structure: (make-earth Position Velocity)
 ; interp. simulation data about the earth.
 
@@ -64,6 +69,13 @@
 ;   - Sat
 ;   - Ship
 ; interp. simulation data about celestial body.
+
+; A CenteredBody is one of:
+; - (make-earth-centered)
+; - (make-moon-centered)
+; - (make-sat-centered)
+; - (make-ship-centered)
+; interp. a flag, which celestial body is currently centered.
 
 ; a Force that represents the gravitational constant
 (define G 6.667408e-11)
