@@ -31,7 +31,7 @@
 ; Minimum simulation speed: 1 second per second.
 (define MIN-SPEEDUP SECOND)
 
-; Maximum simulation speed: 1 day per second.
+; Maximum simulation speed: 1 hour per second.
 (define MAX-SPEEDUP HOUR)
 
 ; Simulation-Speed -> Simulation-Speed
@@ -62,6 +62,10 @@
      (set-simulation-speed (slower (mission-simulation-speed m)) m)]
     [(string=? k ".")
      (set-simulation-speed (faster (mission-simulation-speed m)) m)]
+    [(string=? k "n")
+     (change-mission-centered-body "next" m)]
+    [(string=? k "p")
+     (change-mission-centered-body "previous" m)]
     [else m]))
 
 ; The following two lines make all definitions in this file

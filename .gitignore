@@ -1,0 +1,9 @@
+# ignore all DrRacket backup files
+*.rkt~
+*.bak
+
+# ignore all DrRacket autosave files (#<filename>.rkt#<n>#)
+\#*
+
+# ignore all vim swap files
+*.swp

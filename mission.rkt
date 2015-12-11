@@ -26,16 +26,19 @@
 ; interp. the state as defined by mission-control, storing additional mission information
 (define NO-STATE #f)
 
-(define-struct mission (time zoom simulation-speed world state))
+(define-struct mission (time zoom simulation-speed world state centered-body))
 
-; Mission is a structure: (make-mission Time Zoom-Level Simulation-Speed World MissionState)
+; Mission is a structure:
+; (make-mission Time Zoom-Level Simulation-Speed World MissionState CenteredBody)
 ; interp. simulation data about the whole mission.
 
 (define INIT-TIME 0)
 (define INIT-ZOOM 0.05)
 (define INIT-SPEED 1)
+(define INIT-CENTERED-BODY (make-ship-centered))
 
-(define INIT-MISSION (make-mission INIT-TIME INIT-ZOOM INIT-SPEED INIT-WORLD NO-STATE))
+(define INIT-MISSION
+  (make-mission INIT-TIME INIT-ZOOM INIT-SPEED INIT-WORLD NO-STATE INIT-CENTERED-BODY))
 
 (define MAX-SPEEDUP-UNDER-ACCEL 128)
 (define TICKS-PER-SEC 29)
@@ -71,7 +74,8 @@
                 (mission-zoom m)
                 (mission-simulation-speed m)
                 (simulate-world (mission-world m) (delta-t m))
-                (mission-state m)))
+                (mission-state m)
+                (mission-centered-body m)))
 
 ; Zoom-Level Mission -> Mission
 ; updates the zoom-level of the mission.
@@ -82,7 +86,8 @@
                 new-zoom
                 (mission-simulation-speed mission)
                 (mission-world mission)
-                (mission-state mission)))
+                (mission-state mission)
+                (mission-centered-body mission)))
 
 ; Simulation-Speed Mission -> Mission
 ; updates the simulation-speed of the mission.
@@ -93,7 +98,8 @@
                 (mission-zoom mission)
                 new-speed
                 (mission-world mission)
-                (mission-state mission)))
+                (mission-state mission)
+                (mission-centered-body mission)))
 
 ; Mission -> Mass
 ; returns the remaining fuel available for the mission
@@ -112,7 +118,8 @@
                             (world-earth (mission-world mission))
                             (world-moon (mission-world mission))
                             (world-sat (mission-world mission)))
-                (mission-state mission)))
+                (mission-state mission)
+                (mission-centered-body mission)))
 
 ; Mission -> Thrust
 ; returns currently computed thrust direction for this mission
@@ -132,7 +139,8 @@
                             (world-earth (mission-world mission))
                             (world-moon (mission-world mission))
                             (world-sat (mission-world mission)))
-                (mission-state mission)))
+                (mission-state mission)
+                (mission-centered-body mission)))
 
 ; MissionState Mission -> Mission
 ; returns a new mission with the updated mission state
@@ -143,7 +151,35 @@
                 (mission-zoom mission)
                 (mission-simulation-speed mission)
                 (mission-world mission)
-                new-state))
+                new-state
+                (mission-centered-body mission)))
+
+; Operation CenteredBody -> CenteredBody
+; returns the resulting centered body according to the specified operation
+(define (update-centered-body operation centered-body)
+  (cond
+    [(string=? "next" operation)
+     (cond
+       [(earth-centered? centered-body) (make-moon-centered)]
+       [(moon-centered? centered-body) (make-sat-centered)]
+       [(sat-centered? centered-body) (make-ship-centered)]
+       [(ship-centered? centered-body) (make-earth-centered)])]
+    [(string=? "previous" operation)
+     (cond
+       [(earth-centered? centered-body) (make-ship-centered)]
+       [(moon-centered? centered-body) (make-earth-centered)]
+       [(sat-centered? centered-body) (make-moon-centered)]
+       [(ship-centered? centered-body) (make-sat-centered)])]))
+
+; Mission -> Mission
+; returns a new mission with the updated centered body
+(define (change-mission-centered-body operation mission)
+  (make-mission (mission-time mission)
+                (mission-zoom mission)
+                (mission-simulation-speed mission)
+                (mission-world mission)
+                (mission-state mission)
+                (update-centered-body operation (mission-centered-body mission))))
 
 ; The following two lines make all definitions in this file
 ; available to other files that contain:
